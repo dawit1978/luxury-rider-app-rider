@@ -16,34 +16,33 @@ import DrawerNavigator from './navigation/DrawerNavigator';
 import VerificationScreen from './screens/VerificationScreen';
 import UserDetailsScreen from './screens/UserDetailsScreen';
 import AuthScreen from './screens/AuthScreen';
+import ListingScreen from './screens/ListingScreen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const Stack = createStackNavigator();
 
 const Index: React.FC = () => {
   return (
+    <SafeAreaProvider>
     <ThemeProvider theme={theme}>
+
       <NavigationContainer>
+        
         <Stack.Navigator initialRouteName='AuthScreen' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="AuthScreen" component={AuthScreen} />
-      <Stack.Screen name="Verification" component={VerificationScreen} />
-      <Stack.Screen name="UserDetails" component={UserDetailsScreen} />
+        <Stack.Screen name="Verification" component={VerificationScreen} />
+        <Stack.Screen name="UserDetails" component={UserDetailsScreen} />
           <Stack.Screen name="Welcome" component={Welcome} />
-          {/* <Stack.Screen name="Verification" component={Verification} /> */}
           <Stack.Screen name="AddCard" component={AddCard} />
-          <Stack.Screen
-        name='DrawerNavigator'
-        component={DrawerNavigator}
-        />
+          <Stack.Screen name='DrawerNavigator'component={DrawerNavigator} />
           <Stack.Screen name="CurrentLocation" component={CurrentLocation} />
-          <Stack.Screen
-            name="SelectDestination"
-            component={SelectDestination}
-          />
+          <Stack.Screen name="SelectDestination"component={SelectDestination}/>
           <Stack.Screen name="Request" component={Request} />
           <Stack.Screen name="YourRide" component={YourRide} />
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>
+    </SafeAreaProvider>
   );
 };
 
