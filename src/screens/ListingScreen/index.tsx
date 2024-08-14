@@ -68,8 +68,8 @@ const ListingScreen = () => {
 
       <View>
         <View style={styles.searchSection}>
-          <Search />
-          {/* <View style={styles.filterTabs}>
+         {/* <Search />
+           <View style={styles.filterTabs}>
             <Card style={[styles.filterCard, selectedFilter === 'All' && styles.selectedCard]}>
               <TouchableOpacity onPress={() => setSelectedFilter('All')}>
                 <Text style={styles.filterText}>All</Text>
