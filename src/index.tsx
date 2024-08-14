@@ -27,8 +27,8 @@ const Index: React.FC = () => {
     <ThemeProvider theme={theme}>
 
       <NavigationContainer>
-        
-        <Stack.Navigator initialRouteName='AuthScreen' screenOptions={{ headerShown: false }}>
+        <ListingScreen />
+        {/* <Stack.Navigator initialRouteName='AuthScreen' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="AuthScreen" component={AuthScreen} />
         <Stack.Screen name="Verification" component={VerificationScreen} />
         <Stack.Screen name="UserDetails" component={UserDetailsScreen} />
@@ -39,7 +39,7 @@ const Index: React.FC = () => {
           <Stack.Screen name="SelectDestination"component={SelectDestination}/>
           <Stack.Screen name="Request" component={Request} />
           <Stack.Screen name="YourRide" component={YourRide} />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
       </NavigationContainer>
     </ThemeProvider>
     </SafeAreaProvider>

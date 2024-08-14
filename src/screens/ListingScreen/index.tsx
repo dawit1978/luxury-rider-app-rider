@@ -6,14 +6,10 @@ import BackButton from '../../newComponents/BackButton';
 import Search from '../../newComponents/Search';
 import CarCard from '../../newComponents/CarCard';
 
-// import carImage from '../../assets/cars/car4.jpg';
-// import carImage1 from '../../assets/cars/car5.jpg';
-// import carImage2 from '../../assets/cars/car6.jpg';
 import tesla from '../../assets/cars/tesla.png';
 import mercedes from '../../assets/cars/mercedes.png';
 import rangeRover from '../../assets/cars/range-rover.png';
 import landCruiser from '../../assets/cars/land-cruiser.png';
-
 
 type carDetailType= {
      name:string;
@@ -22,7 +18,7 @@ type carDetailType= {
      category: 'VIP'|'VVIP'|'Corporate';
      seats: number;
      speed: string;
-
+     dropOffTime: string; // Added drop-off time
 }
 
 const ListingScreen = () => {
@@ -31,36 +27,31 @@ const ListingScreen = () => {
 
   const carsData: Array<carDetailType> = [
     {
-      name: 'range rover',
+      name: 'MINI SUV',
       imagePath: rangeRover,
       price: '10,000 birr/day',
       category: 'VVIP',
       seats: 4,
       speed: '100 mph',
+      dropOffTime: '2:00', // Example drop-off time
     },
     {
-      name: 'mercedes benz',
+      name: 'SUV',
       imagePath: mercedes,
       price: '10,000 birr/day',
       category: 'VVIP',
       seats: 4,
       speed: '100 mph',
+      dropOffTime: '2:00', // Example drop-off time
     },
     {
-      name: 'toyota land cruiser',
+      name: 'SEDAN',
       imagePath: landCruiser,
       price: '10,000 birr/day',
       category: 'VIP',
       seats: 4,
       speed: '100 mph',
-    },
-    {
-      name: 'tesla model-s',
-      imagePath: tesla,
-      price: '10,000 birr/day',
-      category: 'Corporate',
-      seats: 4,
-      speed: '100 mph',
+      dropOffTime: '2:00', // Example drop-off time
     },
   ];
 
@@ -75,57 +66,55 @@ const ListingScreen = () => {
         <Appbar.Content title="Atlas, Bole, Addis Ababa" style={{ marginLeft: 26 }} />
       </Appbar.Header>
 
-      <ScrollView>
+      <View>
         <View style={styles.searchSection}>
           <Search />
-          
-
-{/* // Inside the ListingScreen component */}
-                <View style={styles.filterTabs}>
-                <Card style={[styles.filterCard, selectedFilter === 'All' && styles.selectedCard]}>
-                    <TouchableOpacity onPress={() => setSelectedFilter('All')}>
-                    <Text style={styles.filterText}>All</Text>
-                    </TouchableOpacity>
-                </Card>
-                
-                <Divider style={styles.verticalDivider} />
-                
-                <Card style={[styles.filterCard, selectedFilter === 'VIP' && styles.selectedCard]}>
-                    <TouchableOpacity onPress={() => setSelectedFilter('VIP')}>
-                    <Text style={styles.filterText}>VIP</Text>
-                    </TouchableOpacity>
-                </Card>
-                
-                <Divider style={styles.verticalDivider} />
-                
-                <Card style={[styles.filterCard, selectedFilter === 'VVIP' && styles.selectedCard]}>
-                    <TouchableOpacity onPress={() => setSelectedFilter('VVIP')}>
-                    <Text style={styles.filterText}>VVIP</Text>
-                    </TouchableOpacity>
-                </Card>
-                </View>
+          {/* <View style={styles.filterTabs}>
+            <Card style={[styles.filterCard, selectedFilter === 'All' && styles.selectedCard]}>
+              <TouchableOpacity onPress={() => setSelectedFilter('All')}>
+                <Text style={styles.filterText}>All</Text>
+              </TouchableOpacity>
+            </Card>
+            
+            <Divider style={styles.verticalDivider} />
+            
+            <Card style={[styles.filterCard, selectedFilter === 'VIP' && styles.selectedCard]}>
+              <TouchableOpacity onPress={() => setSelectedFilter('VIP')}>
+                <Text style={styles.filterText}>VIP</Text>
+              </TouchableOpacity>
+            </Card>
+            
+            <Divider style={styles.verticalDivider} />
+            
+            <Card style={[styles.filterCard, selectedFilter === 'VVIP' && styles.selectedCard]}>
+              <TouchableOpacity onPress={() => setSelectedFilter('VVIP')}>
+                <Text style={styles.filterText}>VVIP</Text>
+              </TouchableOpacity>
+            </Card>
+          </View> */}
         </View>
 
         {filteredCars.map((car, index) => (
           <TouchableOpacity
-          key={index}
-           onPress={()=>{
-            navigation.navigate('CarDescription',{car})
-           }}
-          >
-
-          <CarCard
             key={index}
-            name={car.name}
-            imagePath={car.imagePath}
-            price={car.price}
-            category={car.category}
-            seats={car.seats}
-            speed={car.speed}
+            onPress={() => {
+              navigation.navigate('CarDescription', { car });
+            }}
+          >
+            <CarCard
+              key={index}
+              name={car.name}
+              imagePath={car.imagePath}
+              price={car.price}
+              category={car.category}
+              seats={car.seats}
+              speed={car.speed}
+              dropOffTime={car.dropOffTime} // Pass drop-off time
+              theme={index % 2 === 0 ? 'light' : 'dark'} // Alternate themes
             />
-            </TouchableOpacity>
+          </TouchableOpacity>
         ))}
-      </ScrollView>
+      </View>
     </View>
   );
 };
