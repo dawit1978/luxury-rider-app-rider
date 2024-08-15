@@ -1,28 +1,27 @@
 import * as React from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, ImageSourcePropType } from 'react-native';
-import { Appbar, Card, Divider, Text } from 'react-native-paper';
+import { StyleSheet, View, TouchableOpacity, ImageSourcePropType } from 'react-native';
+import { Appbar, TextInput, IconButton } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import BackButton from '../../newComponents/BackButton';
-import Search from '../../newComponents/Search';
 import CarCard from '../../newComponents/CarCard';
 
-import tesla from '../../assets/cars/tesla.png';
 import mercedes from '../../assets/cars/mercedes.png';
 import rangeRover from '../../assets/cars/range-rover.png';
 import landCruiser from '../../assets/cars/land-cruiser.png';
 
 type carDetailType= {
-     name:string;
-     imagePath:ImageSourcePropType;
-     price:string;
+     name: string;
+     imagePath: ImageSourcePropType;
+     price: string;
      category: 'VIP'|'VVIP'|'Corporate';
      seats: number;
      speed: string;
-     dropOffTime: string; // Added drop-off time
+     dropOffTime: string;
 }
 
 const ListingScreen = () => {
   const [selectedFilter, setSelectedFilter] = React.useState('All');
+  const [location, setLocation] = React.useState('');
   const navigation = useNavigation();
 
   const carsData: Array<carDetailType> = [
@@ -33,7 +32,7 @@ const ListingScreen = () => {
       category: 'VVIP',
       seats: 4,
       speed: '100 mph',
-      dropOffTime: '2:00', // Example drop-off time
+      dropOffTime: '2:00',
     },
     {
       name: 'SUV',
@@ -42,7 +41,7 @@ const ListingScreen = () => {
       category: 'VVIP',
       seats: 4,
       speed: '100 mph',
-      dropOffTime: '2:00', // Example drop-off time
+      dropOffTime: '2:00',
     },
     {
       name: 'SEDAN',
@@ -51,7 +50,7 @@ const ListingScreen = () => {
       category: 'VIP',
       seats: 4,
       speed: '100 mph',
-      dropOffTime: '2:00', // Example drop-off time
+      dropOffTime: '2:00',
     },
   ];
 
@@ -59,62 +58,68 @@ const ListingScreen = () => {
     ? carsData
     : carsData.filter(car => car.category === selectedFilter);
 
+  const handleLocationClick = () => {
+    navigation.navigate('DestinationScreen', { location });
+  };
+
+  const handleAddStopClick = () => {
+    navigation.navigate('AddStopScreen');
+  };
+
   return (
     <View style={styles.container}>
       <Appbar.Header>
         <BackButton />
-        <Appbar.Content title="Atlas, Bole, Addis Ababa" style={{ marginLeft: 26 }} />
-      </Appbar.Header>
-
-      <View>
-        <View style={styles.searchSection}>
-         {/* <Search />
-           <View style={styles.filterTabs}>
-            <Card style={[styles.filterCard, selectedFilter === 'All' && styles.selectedCard]}>
-              <TouchableOpacity onPress={() => setSelectedFilter('All')}>
-                <Text style={styles.filterText}>All</Text>
-              </TouchableOpacity>
-            </Card>
-            
-            <Divider style={styles.verticalDivider} />
-            
-            <Card style={[styles.filterCard, selectedFilter === 'VIP' && styles.selectedCard]}>
-              <TouchableOpacity onPress={() => setSelectedFilter('VIP')}>
-                <Text style={styles.filterText}>VIP</Text>
-              </TouchableOpacity>
-            </Card>
-            
-            <Divider style={styles.verticalDivider} />
-            
-            <Card style={[styles.filterCard, selectedFilter === 'VVIP' && styles.selectedCard]}>
-              <TouchableOpacity onPress={() => setSelectedFilter('VVIP')}>
-                <Text style={styles.filterText}>VVIP</Text>
-              </TouchableOpacity>
-            </Card>
-          </View> */}
-        </View>
-
-        {filteredCars.map((car, index) => (
+        <View style={styles.locationContainer}>
+          <IconButton
+            icon="map-marker"
+            iconColor='#B80028'
+            onPress={() => {}}
+          />
           <TouchableOpacity
-            key={index}
-            onPress={() => {
-              navigation.navigate('CarDescription', { car });
-            }}
+            style={styles.textInputContainer}
+            onPress={handleLocationClick}
           >
-            <CarCard
-              key={index}
-              name={car.name}
-              imagePath={car.imagePath}
-              price={car.price}
-              category={car.category}
-              seats={car.seats}
-              speed={car.speed}
-              dropOffTime={car.dropOffTime} // Pass drop-off time
-              theme={index % 2 === 0 ? 'light' : 'dark'} // Alternate themes
+            <TextInput
+              placeholder="Atlas, Bole, Addis Ababa"
+              value={location}
+              onChangeText={(text) => setLocation(text)}
+              style={styles.textInput}
+              editable={false} // This makes the TextInput clickable without showing the keyboard
             />
           </TouchableOpacity>
-        ))}
+          <IconButton
+            icon="plus"
+            iconColor='#B80028'
+            onPress={handleAddStopClick}
+          />
+        </View>
+      </Appbar.Header>
+
+      <View style={styles.searchSection}>
+        {/* You can add search functionality here */}
       </View>
+
+      {filteredCars.map((car, index) => (
+        <TouchableOpacity
+          key={index}
+          onPress={() => {
+            navigation.navigate('CarDescription', { car });
+          }}
+        >
+          <CarCard
+            key={index}
+            name={car.name}
+            imagePath={car.imagePath}
+            price={car.price}
+            category={car.category}
+            seats={car.seats}
+            speed={car.speed}
+            dropOffTime={car.dropOffTime}
+            theme={index % 2 === 0 ? 'light' : 'dark'}
+          />
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
@@ -128,35 +133,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 8,
   },
-  filterTabs: {
+  locationContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     alignItems: 'center',
-    marginTop: 8,
     backgroundColor: 'white',
-    elevation: 4,
-    borderRadius: 8,
-    padding: 4,
-  },
-  filterCard: {
+    borderRadius: 5,
     flex: 1,
-    alignItems: 'center',
-    padding: 8,
-    borderRadius: 4,
-    elevation: 4,
-    backgroundColor: 'white',
+    marginLeft: 10,
+    marginRight: 10,
+    paddingVertical: 5,
   },
-  selectedCard: {
-    backgroundColor: '#B80028',
+  textInputContainer: {
+    flex: 1,
+    backgroundColor: '#E0E0E0', // Gray background for the TextInput
+    borderRadius: 5,
+    justifyContent: 'center',
   },
-  filterText: {
-    fontSize: 16,
-    color: 'black',
-  },
-  verticalDivider: {
-    width: 1,
-    height: '100%',
-    backgroundColor: '#D3D3D3',
+  textInput: {
+    paddingHorizontal: 10,
+    backgroundColor: 'transparent',
   },
 });
 

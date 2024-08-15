@@ -19,7 +19,7 @@ const RideHistoryCard: React.FC<RideHistoryCardProps> = ({ startLocation, destin
                     <Text style={styles.text}>{startLocation}</Text>
                 </View>
                 
-                <View style={styles.row}>
+                {/* <View style={styles.row}>
                     <IconButton icon="map-marker-radius-outline" size={20} />
                     <Text style={styles.text}>Destination: {destination}</Text>
                 </View>
@@ -30,7 +30,7 @@ const RideHistoryCard: React.FC<RideHistoryCardProps> = ({ startLocation, destin
                 <View style={styles.row}>
                     <IconButton icon="calendar" size={20} />
                     <Text style={styles.text}>Date: {date}</Text>
-                </View>
+                </View> */}
             </Card.Content>
         </Card>
     );
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         shadowOpacity:0.9,
         elevation: 3,
         padding: 5,
+        margin:5,
     },
     row: {
         flexDirection: 'row',
