@@ -59,11 +59,11 @@ const ListingScreen = () => {
     : carsData.filter(car => car.category === selectedFilter);
 
   const handleLocationClick = () => {
-    navigation.navigate('DestinationScreen', { location });
+    navigation.navigate('MapScreen', { focusInput: 'start' });
   };
 
   const handleAddStopClick = () => {
-    navigation.navigate('AddStopScreen');
+    navigation.navigate('MapScreen', { focusInput: 'plus' });
   };
 
   return (

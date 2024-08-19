@@ -32,6 +32,7 @@ export const CreditCardInfo = styled.View`
   justify-content: center;
   align-items: center;
   margin-top: 0px;
+  margin-left:20px;
   margin-bottom: 0px;
   width: 100%;
 `;

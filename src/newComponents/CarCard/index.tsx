@@ -3,7 +3,6 @@ import { View, Image, StyleSheet, ImageSourcePropType } from 'react-native';
 import { Card, Title, Paragraph, Text } from 'react-native-paper';
 import vip from '../../assets/icons/VIP.png';
 import vvip from '../../assets/icons/VVIP.png';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type CarCardProps = {
   name: string;
@@ -13,7 +12,7 @@ type CarCardProps = {
   seats: number;
   speed: string;
   dropOffTime: string;
-  theme: 'light' | 'dark'; // New prop for theme
+  theme: 'light' | 'dark';
 };
 
 const CarCard: React.FC<CarCardProps> = ({
@@ -55,11 +54,9 @@ const CarCard: React.FC<CarCardProps> = ({
               <Paragraph style={styles.iconText}>{speed}</Paragraph>
             </View>
           </View>
-          {/* <TouchableOpacity> */}
-            <Card style={[styles.priceCard, isDarkTheme ? styles.priceCardDark : styles.priceCardLight]}>
-              <Text style={[styles.price, { color: isDarkTheme ? '#000' : '#fff' }]}>{price}</Text>
-            </Card>
-          {/* </TouchableOpacity> */}
+          <Card style={[styles.priceCard, isDarkTheme ? styles.priceCardDark : styles.priceCardLight]}>
+            <Text style={[styles.price, { color: isDarkTheme ? '#000' : '#fff' }]}>{price}</Text>
+          </Card>
         </View>
       </View>
     </Card>
@@ -68,29 +65,29 @@ const CarCard: React.FC<CarCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    margin: 10,
+    margin: 8,
     borderRadius: 10,
     overflow: 'hidden',
-    width: 340, 
+    width: 320,
+    // height:100,
     alignSelf: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.9,
-    shadowRadius: 3.84,
-    elevation: 5,
-    backgroundColor: '#fff', // Default light background
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
+    elevation: 4,
+    backgroundColor: '#fff',
   },
   darkCard: {
-    backgroundColor: '#B80028', // Dark theme background
+    backgroundColor: '#B80028',
   },
   container: {
     flexDirection: 'row',
-    padding: 10,
-    marginRight:10,
+    padding: 5,
   },
   image: {
-    width: 130,
-    height: 80,
+    width: 100,
+    height: 60,
   },
   detailsContainer: {
     flex: 1,
@@ -98,9 +95,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    fontStyle:'italic'
   },
   textLight: {
     color: '#fff',
@@ -110,7 +106,7 @@ const styles = StyleSheet.create({
   },
   dropOffTime: {
     fontSize: 12,
-    color: '#000', // Default to black for light theme
+    color: '#000',
   },
   iconRow: {
     flexDirection: 'row',
@@ -123,24 +119,22 @@ const styles = StyleSheet.create({
     marginRight: 10,
     backgroundColor: 'white',
     borderRadius: 5,
-    paddingHorizontal: 5,
+    paddingHorizontal: 4,
     paddingVertical: 2,
   },
   iconImage: {
-    width: 18,
-    height: 18,
-    marginRight: 5,
+    width: 16,
+    height: 16,
+    marginRight: 4,
   },
   iconText: {
     fontSize: 12,
   },
   priceCard: {
     alignSelf: 'center',
-    alignContent:'center',
-    justifyContent:'center',
-    padding: 2,
-    marginVertical: 5,
-    borderRadius: 8,
+    padding: 4,
+    marginTop: 5,
+    borderRadius: 6,
     width: '90%',
   },
   priceCardLight: {
@@ -150,13 +144,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   price: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
-    marginTop: 8,
-    textAlign:'center'
-  },
-  darkPrice: {
-    color: '#fff',
+    textAlign: 'center',
   },
 });
 

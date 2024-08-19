@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, StyleSheet, BackHandler, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Text, Modal, StyleSheet, BackHandler, TouchableOpacity, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Polyline, Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Checkbox, IconButton, TextInput } from 'react-native-paper';
 import homeMarker from '../../assets/home_marker.png';
 import destMarker from '../../assets/dest_marker.png';
 import customMapStyle from '../../mapstyle.json';
-import Header from '../../components/Header';
-import CarButton from '../../components/CarButton';
-import Button from '../../components/Button';
-import theme from '../../theme';
+import BackButton from '../../newComponents/BackButton';
+import CustomButton from '../../newComponents/Button';
 import * as S from './styles';
 import CallDriverCard from '../../newComponents/CallDriverCard';
 import DriverCard from '../../newComponents/DriverCard';
 import driverImage from '../../assets/avatar.png';
-import BackButton from '../../newComponents/BackButton';
-import CustomButton from '../../newComponents/Button'; // Ensure this path is correct
 
 const Request: React.FC = () => {
   const [selected, setSelected] = useState('economy');
   const [text, setText] = useState(' ');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [reasons, setReasons] = useState<string[]>([]);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [expandAnim] = useState(new Animated.Value(0));
+  const [reasons, setReasons] = useState<string[]>([]); // Added state for reasons
 
   const navigation = useNavigation();
 
@@ -38,37 +35,92 @@ const Request: React.FC = () => {
   const handleConfirmCancel = () => {
     console.log('Cancel Ride confirmed with reasons:', reasons);
     setIsModalVisible(false);
-    navigation.navigate('ListingScreen'); // Assuming you navigate back to Home or some other screen after cancel
+    navigation.navigate('ListingScreen');
   };
-  
-  const toggleReason = (reason: string) => {
-    setReasons((prevReasons) =>
-      prevReasons.includes(reason)
-    ? prevReasons.filter((r) => r !== reason)
-    : [...prevReasons, reason]
-  );
-};
 
-useEffect(() => {
-  const backAction = () => {
-    navigation.goBack();
-    setIsModalVisible(false);
-    return true;
+  const toggleExpandCollapse = () => {
+    setIsExpanded(!isExpanded);
+    Animated.timing(expandAnim, {
+      toValue: isExpanded ? 0 : 1,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
   };
-  
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction
-    );
+
+  const toggleReason = (reason: string) => {
+    if (reasons.includes(reason)) {
+      setReasons(reasons.filter(r => r !== reason));
+    } else {
+      setReasons([...reasons, reason]);
+    }
+  };
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.goBack();
+      setIsModalVisible(false);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () => backHandler.remove();
   }, [navigation]);
 
+  const expandHeight = expandAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [50, 200],
+  });
+
   return (
-    <S.Container>
+    <S.Container style={{ marginTop: 20 }}>
       <S.HeaderContainer>
-        <BackButton onPress={() => setIsModalVisible(false)} />
+        <BackButton onPress={() => navigation.goBack()} />
       </S.HeaderContainer>
+
+      <S.CreditCardInfo>
+        <DriverCard
+          name="Abel Kassa"
+          vehicleRegistration="DL3s - 2655"
+          imagePath={driverImage}
+        />
+
+        <Animated.View style={{ height: expandHeight, overflow: 'hidden' }}>
+          {isExpanded && (
+            <CallDriverCard
+              estimatedTime="10-15"
+              date="04 Apr 2022"
+              startLocation="Piassa"
+              endLocation="Bole road 10"
+            />
+          )}
+        </Animated.View>
+
+        <View style={styles.buttonContainer}>
+          <CustomButton
+            title="Call Driver"
+            icon="phone-in-talk-outline"
+            onPress={handleCallDriver}
+            style={styles.callDriver}
+          />
+          <CustomButton
+            title="Cancel Ride"
+            onPress={handleCancelRide}
+            style={[styles.cancelRide, { backgroundColor: 'white' }]}
+            labelStyle={{ color: 'black' }}
+          />
+        </View>
+
+        <TouchableOpacity onPress={toggleExpandCollapse}>
+          <IconButton
+            icon={isExpanded ? "chevron-up" : "chevron-down"}
+            size={34}
+            iconColor='#B80028'
+            style={styles.expandButton}
+          />
+        </TouchableOpacity>
+      </S.CreditCardInfo>
+
       <S.Map
         provider={PROVIDER_GOOGLE}
         region={{
@@ -95,7 +147,7 @@ useEffect(() => {
             { longitude: -43.938009, latitude: -19.921849 },
             { longitude: -43.938881, latitude: -19.921655 },
           ]}
-          strokeColor={theme.color.secondary} // fallback for when `strokeColors` is not supported by the map-provider
+          strokeColor="#B80028"
           strokeWidth={4}
         />
         <Marker
@@ -120,62 +172,20 @@ useEffect(() => {
         </Marker>
       </S.Map>
 
-      <S.Bottom>
-        <LinearGradient
-          colors={['rgba(255,255,255, 0.2)', 'rgba(255,255,255, 0.9)', '#fff']}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-            height: 300,
-          }}
-        />
-      </S.Bottom>
-
-      <S.CreditCardInfo>
-        <DriverCard
-          name="Abel Kassa"
-          vehicleRegistration="DL3s - 2655"
-          imagePath={driverImage}
-        />
-        <CallDriverCard
-          estimatedTime="10-15"
-          date="04 Apr 2022"
-          startLocation="Piassa"
-          endLocation="Bole road 10"
-        />
-      </S.CreditCardInfo>
-
-      <View style={styles.buttonContainer}>
-        <CustomButton
-          title="Call Driver"
-          icon="phone-in-talk-outline"
-          onPress={handleCallDriver}
-          style={styles.callDriver}
-        />
-        <CustomButton
-          title="Cancel Ride"
-          onPress={handleCancelRide}
-          style={[styles.cancelRide, { backgroundColor: 'white' }]}
-          labelStyle={{ color: 'black' }}
-        />
-      </View>
-
       <Modal visible={isModalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <TouchableOpacity onPress={()=>{
-              navigation.goBack();
-              setIsModalVisible(false);
-            }}>
-            <IconButton 
-        icon="arrow-left" 
-        size={24} 
-        // onPress={handlePress}
-        iconColor="#B80028" // Icon color
-        // style={styles.iconButton} // Ensure icon is centered
-      />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+                setIsModalVisible(false);
+              }}
+            >
+              <IconButton
+                icon="arrow-left"
+                size={24}
+                iconColor="#B80028"
+              />
             </TouchableOpacity>
             <Text style={styles.reasonText}>Reason to cancel</Text>
             <CallDriverCard
@@ -185,17 +195,15 @@ useEffect(() => {
               endLocation="Bole road 10"
             />
             <View style={styles.checkboxContainer}>
-              {['I have changed my mind', 'Driver is late', 'Price is high', 'Other'].map(
-                (reason, index) => (
-                  <View key={index} style={styles.checkboxItem}>
-                    <Checkbox
-                      status={reasons.includes(reason) ? 'checked' : 'unchecked'}
-                      onPress={() => toggleReason(reason)}
-                    />
-                    <Text>{reason}</Text>
-                  </View>
-                )
-              )}
+              {['I have changed my mind', 'Driver is late', 'Price is high', 'Other'].map((reason, index) => (
+                <View key={index} style={styles.checkboxItem}>
+                  <Checkbox
+                    status={reasons.includes(reason) ? 'checked' : 'unchecked'}
+                    onPress={() => toggleReason(reason)}
+                  />
+                  <Text>{reason}</Text>
+                </View>
+              ))}
             </View>
             <CustomButton
               title="Cancel Ride"
@@ -223,11 +231,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '80%',
   },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
   reasonText: {
     fontSize: 16,
     marginVertical: 10,
@@ -242,7 +245,7 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     fontSize: 14,
-    borderRadius:50,
+    borderRadius: 50,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -252,14 +255,16 @@ const styles = StyleSheet.create({
   callDriver: {
     margin: 0,
     fontSize: 12,
-    borderRadius:50,
+    borderRadius: 50,
   },
   cancelRide: {
     margin: 0,
     fontSize: 12,
-    borderRadius:50,
-
-    
+    borderRadius: 50,
+  },
+  expandButton: {
+    alignItems: 'center',
+    padding: 10,
   },
 });
 

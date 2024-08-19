@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Alert, Animated, View, StyleSheet, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Card, TextInput, IconButton } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import MapButton from '../../components/MapButton';
 import iconCenter from '../../assets/map_center.png';
 import whereCar from '../../assets/icons/whereCar.png';
@@ -27,6 +27,18 @@ const MapScreen: React.FC = () => {
   const [isDestinationTyping, setIsDestinationTyping] = useState<boolean>(false);
   const navigation = useNavigation();
   const animation = useRef(new Animated.Value(90)).current; // Start with the collapsed height
+
+  const route = useRoute();
+  const focusInput = route.params?.focusInput; // Retrieve the focusInput parameter
+  useEffect(() => {
+    if (focusInput === 'start') {
+      setIsPanelExpanded(true); // Expand the panel
+      setIsStartTyping(true);   // Set the start location input as focused
+    } else if (focusInput === 'plus') {
+      setIsPanelExpanded(true); // Expand the panel
+      handleAddStop();          // Add a stop and focus on it
+    }
+  }, [focusInput]);
 
   const [latLng, setLatLng] = useState<ILatLng>({
     latitude: 8.9831,
@@ -81,7 +93,7 @@ const MapScreen: React.FC = () => {
     }
   };
   const handleDone = () => {
-    console.log('Cancel Ride confirmed with reasons:', reasons);
+    // console.log('Cancel Ride confirmed with reasons:', reasons);
     navigation.navigate('ListingScreen'); // Assuming you navigate back to Home or some other screen after cancel
   };
   return (
