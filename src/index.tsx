@@ -21,6 +21,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import MapScreen from './screens/MapScreen';
 import DriverSearchingScreen from './screens/DriverSearchingScreen';
 import DriverFoundScreen from './screens/DriverFound';
+import SearchingDriver from './newComponents/SearchingDriver';
 
 const Stack = createStackNavigator();
 
@@ -32,9 +33,10 @@ const Index: React.FC = () => {
           {/* <DriverSearchingScreen /> */}
           {/* <DriverFoundScreen /> */}
           {/* <Request /> */}
+          {/* <SearchingDriver /> */}
         
           <Stack.Navigator initialRouteName='AuthScreen' screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="AuthScreen" component={AuthScreen} />
+            {/* <Stack.Screen name="AuthScreen" component={AuthScreen} />
             <Stack.Screen name="Verification" component={VerificationScreen} />
             <Stack.Screen name="UserDetails" component={UserDetailsScreen} />
             <Stack.Screen name="Welcome" component={Welcome} />
@@ -43,7 +45,8 @@ const Index: React.FC = () => {
             <Stack.Screen name="CurrentLocation" component={CurrentLocation} />
             <Stack.Screen name="SelectDestination"component={SelectDestination}/>
             <Stack.Screen name="Request" component={Request} />
-            <Stack.Screen name="YourRide" component={YourRide} />
+            <Stack.Screen name="YourRide" component={YourRide} /> */}
+            <Stack.Screen name="SearchingDriver" component={SearchingDriver} />
 
                  {/* <Stack.Screen name="MapScreen" component={MapScreen} /> 
                  <Stack.Screen name="ListingScreen" component={ListingScreen} />  */}

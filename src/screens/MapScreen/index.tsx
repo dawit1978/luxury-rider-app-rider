@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 10,
     elevation: 3,
-    padding: 10,
+    padding: 30,
   },
   plusIconContainer: {
     position: 'absolute',

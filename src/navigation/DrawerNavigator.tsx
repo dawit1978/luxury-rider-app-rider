@@ -17,6 +17,7 @@ import ListingScreen from "../screens/ListingScreen";
 import CarDescription from "../screens/CarDescription";
 import Request from "../screens/Request";
 import YourRide from "../screens/YourRide";
+import DriverSearchingScreen from "../screens/DriverSearchingScreen";
 interface DrawerProps /*extends Props<DrawerParamsList, "DrawerContent">*/{
 }
 
@@ -81,10 +82,16 @@ const DrawerNavigator: React.FC<DrawerProps> = (props)=> {
              options={{headerShown:false}}
               
              />
-            <Drawer.Screen
+            {/* <Drawer.Screen
             options={{headerShown:false}}
              name="CarDescription"
              component={CarDescription}
+              
+             /> */}
+              <Drawer.Screen
+            options={{headerShown:false}}
+             name="DriverSearching"
+             component={DriverSearchingScreen}
               
              />
             <Drawer.Screen

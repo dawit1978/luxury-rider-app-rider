@@ -7,6 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'; // Import
 import MapButton from '../../components/MapButton'; // Adjust the path as necessary
 import iconCenter from '../../assets/map_center.png'; // Adjust the path as necessary
 import BurgerMenu from '../../newComponents/BurgerMenu';
+import SearchingDriver from '../../newComponents/SearchingDriver';
 
 const { width, height } = Dimensions.get('window');
 
@@ -55,10 +56,12 @@ const DriverSearchingScreen: React.FC = () => {
       <Card style={styles.searchCard}>
         {/* <BurgerMenu /> */}
         <Card.Content>
-            <Text style={styles.searchText}>Searching the nearest driver ... </Text>
-            <ActivityIndicator animating={true} color="#FFF" size="small" />
+            {/* <Text style={styles.searchText}>Searching the nearest driver ... </Text> */}
+            {/* <ActivityIndicator animating={true} color="#FFF" size="small" /> */}
+            <SearchingDriver />
+            
         </Card.Content>
-        </Card>
+      </Card>
 
       <MapView
         ref={(map) => {
@@ -105,7 +108,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   searchCard: {
-    
     position: 'absolute',
     top: 20,
     backgroundColor: '#B80028',
