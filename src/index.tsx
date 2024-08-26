@@ -31,9 +31,9 @@ const Index: React.FC = () => {
       <NavigationContainer>
           {/* <DriverSearchingScreen /> */}
           {/* <DriverFoundScreen /> */}
-          <Request />
+          {/* <Request /> */}
         
-          {/* <Stack.Navigator initialRouteName='AuthScreen' screenOptions={{ headerShown: false }}>
+          <Stack.Navigator initialRouteName='AuthScreen' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="AuthScreen" component={AuthScreen} />
             <Stack.Screen name="Verification" component={VerificationScreen} />
             <Stack.Screen name="UserDetails" component={UserDetailsScreen} />
@@ -43,13 +43,13 @@ const Index: React.FC = () => {
             <Stack.Screen name="CurrentLocation" component={CurrentLocation} />
             <Stack.Screen name="SelectDestination"component={SelectDestination}/>
             <Stack.Screen name="Request" component={Request} />
-            <Stack.Screen name="YourRide" component={YourRide} /> */}
+            <Stack.Screen name="YourRide" component={YourRide} />
 
                  {/* <Stack.Screen name="MapScreen" component={MapScreen} /> 
                  <Stack.Screen name="ListingScreen" component={ListingScreen} />  */}
 
 
-        {/* </Stack.Navigator> */}
+        </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>
     </SafeAreaProvider>
