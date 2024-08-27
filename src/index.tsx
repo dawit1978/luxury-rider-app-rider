@@ -45,12 +45,12 @@ const Index: React.FC = () => {
             <Stack.Screen name="CurrentLocation" component={CurrentLocation} />
             <Stack.Screen name="SelectDestination"component={SelectDestination}/>
             <Stack.Screen name="Request" component={Request} />
-            <Stack.Screen name="YourRide" component={YourRide} /> */}
-            <Stack.Screen name="SearchingDriver" component={SearchingDriver} />
+            <Stack.Screen name="YourRide" component={YourRide} />  */}
+          {/* <Stack.Screen name="SearchingDriver" component={DriverSearchingScreen} /> */}
 
-                 {/* <Stack.Screen name="MapScreen" component={MapScreen} /> 
-                 <Stack.Screen name="ListingScreen" component={ListingScreen} />  */}
-
+                 <Stack.Screen name="MapScreen" component={MapScreen} /> 
+                 {/* <Stack.Screen name="ListingScreen" component={ListingScreen} />  */}
+            
 
         </Stack.Navigator>
       </NavigationContainer>

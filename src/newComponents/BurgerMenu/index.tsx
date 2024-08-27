@@ -1,17 +1,37 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-const BurgerMenu: React.FC = () => {
+interface BurgerMenuProps {
+    top?: number;
+    left?: number;
+    position?: 'absolute' | 'relative';
+    zIndex?: number;
+    containerStyle?: ViewStyle;
+}
+
+const BurgerMenu: React.FC<BurgerMenuProps> = ({
+    top = 40,
+    left = 20,
+    position = 'absolute',
+    zIndex = 1,
+    containerStyle,
+}) => {
     const navigation = useNavigation();
 
     return (
-        <View style={styles.menuContainer}>
+        <View
+            style={[
+                styles.menuContainer,
+                { top, left, position, zIndex },
+                containerStyle,
+            ]}
+        >
             <IconButton
                 icon="menu"
                 size={24}
-                color="white"
+                color="black"
                 onPress={() => navigation.openDrawer()}
                 style={styles.menuButton}
             />
@@ -21,12 +41,10 @@ const BurgerMenu: React.FC = () => {
 
 const styles = StyleSheet.create({
     menuContainer: {
-        position: 'absolute',
-        top: 40,
-        left: 40,
         backgroundColor: 'white',
         borderRadius: 50,
-        zIndex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     menuButton: {
         margin: 0,

@@ -74,6 +74,8 @@ const DrawerNavigator: React.FC<DrawerProps> = (props)=> {
             <Drawer.Screen
              name="MapScreen"
              component={MapScreen}
+            //  options={{headerShown:false}}
+              
               
              />
             <Drawer.Screen
@@ -89,7 +91,7 @@ const DrawerNavigator: React.FC<DrawerProps> = (props)=> {
               
              /> */}
               <Drawer.Screen
-            options={{headerShown:false}}
+            // options={{headerShown:false}}
              name="DriverSearching"
              component={DriverSearchingScreen}
               

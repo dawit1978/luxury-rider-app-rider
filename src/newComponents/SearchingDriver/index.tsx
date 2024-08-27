@@ -9,9 +9,10 @@ const SearchingDriver = () => {
   const [startLocation, setStartLocation] = React.useState('');
   const [destination, setDestination] = React.useState('');
   const [locations, setLocations] = React.useState<string[]>([]);
-  const [areInputsVisible, setAreInputsVisible] = React.useState(true);
+  const [areInputsVisible, setAreInputsVisible] = React.useState(false);
   const progress = React.useRef(new Animated.Value(0)).current;
   const route = useRoute();
+  const carImageUri = route?.params?.carImageUri;
   const focusInput = route?.params?.focusInput;
 
   React.useEffect(() => {
@@ -53,7 +54,7 @@ const SearchingDriver = () => {
         })}]} />
 
         <Image
-          source={{ uri: route?.params?.carImageUri }}
+          source={carImageUri}
           style={styles.carImage}
           resizeMode="contain"
         />
@@ -61,7 +62,7 @@ const SearchingDriver = () => {
         {/* Toggle Button for Collapsing/Expanding All Inputs */}
         <TouchableOpacity onPress={() => setAreInputsVisible(!areInputsVisible)}>
           <Text style={styles.dropdownTitle}>
-            Add Stop {areInputsVisible ? '▲' : '▼'}
+            Add Stop {areInputsVisible ? '-' : '+'}
           </Text>
         </TouchableOpacity>
 
@@ -122,66 +123,56 @@ const SearchingDriver = () => {
 
 const styles = StyleSheet.create({
   card: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
-    backgroundColor: '#FFFFFF',
+    // margin: 10,
+    padding: 20,
     borderRadius: 10,
     elevation: 3,
-    padding: 16,
-  },
-  cardContent: {
-    flex: 1,
+    backgroundColor: '#fff',
   },
   searchingText: {
-    textAlign: 'center',
-    marginVertical: 10,
     fontSize: 16,
-    color: '#B80028',
     fontWeight: 'bold',
-  },
-  progressBar: {
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#B80028',
-    marginBottom: 16,
+    marginBottom: 10,
+    color: '#333',
+    textAlign: 'center',
   },
   carImage: {
-    width: 200,    // adjust as necessary
-    height: 100,   // adjust as necessary
-    alignSelf: 'center',
-    marginVertical: 20,
-  },
-  inputContainerVertical: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  input: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    width: '100%',
-  },
-  inputCard: {
-    width: '100%',
+    width: 150,
+    height: 150,
     marginBottom: 10,
-    borderRadius: 10,
-    elevation: 3,
-    padding: 10,
-  },
-  plusIcon: {
     alignSelf: 'center',
-    marginVertical: 10,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 50,
-    elevation: 3,
+  },
+  cardContent: {
+    alignItems: 'center',
+  },
+  progressBar: {
+    height: 5,
+    backgroundColor: '#B80028',
+    marginBottom: 20,
   },
   dropdownTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 10,
     color: '#B80028',
-    marginVertical: 10,
-    alignSelf: 'flex-start',
+    textAlign: 'center',
+  },
+  inputContainerVertical: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  inputCard: {
+    width: '100%',
+    marginVertical: 8,
+    borderRadius: 8,
+  },
+  input: {
+    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 10,
+  },
+  plusIcon: {
+    alignSelf: 'center',
+    marginBottom: 8,
   },
 });
 

@@ -116,12 +116,15 @@ const MapScreen: React.FC = () => {
       <MapButton style={styles.locationIcon} icon={iconCenter} noMargin onPress={centerMap} />
 
       {/* Expand/Collapse Button */}
+     <TouchableOpacity  style={styles.expandIcon}>
       <IconButton
-        icon={isPanelExpanded ? "chevron-down" : "chevron-up"}
-        size={24}
-        onPress={togglePanelExpansion}
-        style={styles.expandIcon}
-      />
+          icon={isPanelExpanded ? "chevron-down" : "chevron-up"}
+          size={24}
+          iconColor='#ffffff'
+          onPress={togglePanelExpansion}
+         
+        />
+     </TouchableOpacity>
 
       <Animated.View style={[styles.panel, { height: animation }]}>
         {!isPanelExpanded && (
@@ -129,9 +132,10 @@ const MapScreen: React.FC = () => {
             <Image source={whereCar} style={styles.carImage} />
             <TextInput
               placeholder="Where to..."
+              placeholderTextColor={'#B80028'}
               style={styles.inputHorizontal}
               editable={false}
-            />
+            /> 
             <TouchableOpacity onPress={() => navigation.navigate('TabBarNavigator')}>
               <Image source={services} style={styles.servicesIcon} />
             </TouchableOpacity>
@@ -173,7 +177,7 @@ const MapScreen: React.FC = () => {
                   <IconButton
                     icon="plus"
                     size={24}
-                    iconColor="#B80028"
+                    iconColor="#ffffff"
                     onPress={handleAddStop}
                     style={styles.plusIcon}
                   />
@@ -272,10 +276,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 100,
     left: '65%',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#B80028',
     borderRadius: 50,
-    width: 60, // Increased background size
-    height: 60, // Increased background size
+    width: 50, // Increased background size
+    height: 50, // Increased background size
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 3,
@@ -329,14 +333,14 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 10,
     borderRadius: 10,
-    elevation: 3,
-    padding: 30,
+    elevation: 5,
+    padding: 1,
   },
   plusIconContainer: {
     position: 'absolute',
     right: 0,
     top: 10,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#B80028',
     borderRadius: 50,
     padding: 5,
   },
@@ -345,10 +349,10 @@ const styles = StyleSheet.create({
   },
   historyScroll: {
     flex: 1,
-    marginTop: 10, // Added margin top to separate from input fields
+    marginTop: 5, // Added margin top to separate from input fields
   },
   historyContainer: {
-    padding: 10,
+    padding: 5,
   },
   locationIcon: {
     // Customize the location icon button style

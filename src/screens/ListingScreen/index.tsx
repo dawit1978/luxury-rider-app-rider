@@ -52,6 +52,25 @@ const ListingScreen = () => {
       speed: '100 mph',
       dropOffTime: '2:00',
     },
+    {
+      name: 'NISSAN',
+      imagePath: landCruiser,
+      price: '10,000 birr/day',
+      category: 'VIP',
+      seats: 4,
+      speed: '100 mph',
+      dropOffTime: '2:00',
+    },
+    {
+      name: 'MARCEDES',
+      imagePath: landCruiser,
+      price: '10,000 birr/day',
+      category: 'VIP',
+      seats: 4,
+      speed: '100 mph',
+      dropOffTime: '2:00',
+    },
+  
   ];
 
   const filteredCars = selectedFilter === 'All'
@@ -104,7 +123,7 @@ const ListingScreen = () => {
         <TouchableOpacity
           key={index}
           onPress={() => {
-            navigation.navigate('DriverSearching', { car });
+            navigation.navigate('DriverSearching', { carImageUri: car.imagePath });
           }}
         >
           <CarCard

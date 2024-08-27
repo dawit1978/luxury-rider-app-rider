@@ -15,7 +15,7 @@ const RideHistoryCard: React.FC<RideHistoryCardProps> = ({ startLocation, destin
             <Card.Content>
                 
                 <View style={styles.rowItem}>
-                    <IconButton icon="map-marker" size={20} />
+                    <IconButton icon="map-marker" size={20} iconColor='#B80028'/>
                     <Text style={styles.text}>{startLocation}</Text>
                 </View>
                 
@@ -45,10 +45,13 @@ const styles = StyleSheet.create({
         elevation: 3,
         padding: 5,
         margin:5,
+        backgroundColor:'#ffffff'
+
     },
     row: {
         flexDirection: 'row',
         alignItems: 'center',
+
         // marginBottom: 2, // Reduced gap between lines
     },
     rowCombined: {
