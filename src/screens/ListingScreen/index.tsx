@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { StyleSheet, View, TouchableOpacity, ImageSourcePropType } from 'react-native';
 import { Appbar, TextInput, IconButton } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import BackButton from '../../newComponents/BackButton';
 import CarCard from '../../newComponents/CarCard';
 
 import mercedes from '../../assets/cars/mercedes.png';
 import rangeRover from '../../assets/cars/range-rover.png';
 import landCruiser from '../../assets/cars/land-cruiser.png';
+import { DrawerParamsList } from '../../../types';
 
 type carDetailType= {
      name: string;
@@ -22,7 +23,8 @@ type carDetailType= {
 const ListingScreen = () => {
   const [selectedFilter, setSelectedFilter] = React.useState('All');
   const [location, setLocation] = React.useState('');
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<DrawerParamsList>>();
+
 
   const carsData: Array<carDetailType> = [
     {
@@ -78,11 +80,11 @@ const ListingScreen = () => {
     : carsData.filter(car => car.category === selectedFilter);
 
   const handleLocationClick = () => {
-    navigation.navigate('MapScreen', { focusInput: 'start' });
+    navigation.navigate('WhereToScreen', { focusInput: 'start' });
   };
 
   const handleAddStopClick = () => {
-    navigation.navigate('MapScreen', { focusInput: 'plus' });
+    navigation.navigate('WhereToScreen', { focusInput: 'plus' });
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, StyleSheet, BackHandler, TouchableOpacity, Animated } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Polyline, Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Checkbox, IconButton, TextInput } from 'react-native-paper';
 import homeMarker from '../../assets/home_marker.png';
@@ -12,6 +12,7 @@ import * as S from './styles';
 import CallDriverCard from '../../newComponents/CallDriverCard';
 import DriverCard from '../../newComponents/DriverCard';
 import driverImage from '../../assets/avatar.png';
+import { DrawerParamsList } from '../../../types';
 
 const Request: React.FC = () => {
   const [selected, setSelected] = useState('economy');
@@ -21,7 +22,8 @@ const Request: React.FC = () => {
   const [expandAnim] = useState(new Animated.Value(0));
   const [reasons, setReasons] = useState<string[]>([]); // Added state for reasons
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<DrawerParamsList>>();
+
 
   const handleCallDriver = () => {
     navigation.navigate('YourRide');

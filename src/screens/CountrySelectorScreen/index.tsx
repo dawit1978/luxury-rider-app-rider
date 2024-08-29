@@ -4,11 +4,14 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput, Button, IconButton, Card } from 'react-native-paper';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
 import CustomButton from '../../newComponents/Button';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { StackParamsList } from '../../../types';
 
 const CountrySelectorScreen: React.FC = () => {
   const [countryCode, setCountryCode] = useState<CountryCode>('ET');
   const [country, setCountry] = useState<Country | null>(null);
   const [mobileNumber, setMobileNumber] = useState('');
+  const navigation = useNavigation<NavigationProp<StackParamsList>>();
   const handlePress = () => {
     navigation.navigate('Verification');
   };
@@ -36,7 +39,7 @@ const CountrySelectorScreen: React.FC = () => {
             <IconButton
               icon="chevron-down"
               size={24}
-              iconcolor="#FFFFFF"
+              iconColor="#FFFFFF"
               style={styles.arrowIcon}
             />
           </TouchableOpacity>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import PhoneInput from '../../components/PhoneInput';
 import Button from '../../components/Button';
@@ -8,9 +8,11 @@ import Button from '../../components/Button';
 // import cabImg from '../../assets/cab.png';
 import cabImg from '../../assets/welcome.png';
 import * as S from './styles';
+import { StackParamsList } from '../../../types';
 
 const Welcome: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<StackParamsList>>();
+
 
   return (
     <S.BackgroundImage source={cabImg} resizeMode="cover">

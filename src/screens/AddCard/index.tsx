@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 // import logoSm from '../../assets/logo-sm.png';
 import logoSm from '../../assets/L.png';
@@ -10,6 +10,7 @@ import Header from '../../components/Header';
 import Button from '../../components/Button';
 
 import * as S from './styles';
+import { StackParamsList } from '../../../types';
 
 const AddCard: React.FC = () => {
   const [focused, setFocused] = useState('');
@@ -19,6 +20,7 @@ const AddCard: React.FC = () => {
   const [cvv, setCvv] = useState('');
 
   const { navigate } = useNavigation();
+  const navigation = useNavigation<NavigationProp<StackParamsList>>();
 
   function changeNumber(value: string) {
     if ([4, 9, 14].indexOf(value.length) !== -1) {
@@ -92,7 +94,7 @@ const AddCard: React.FC = () => {
             />
           </S.CvvWrapper>
         </S.ExpCvvWrapper>
-        <Button onPress={() => navigate('DrawerNavigator')}>Add Card</Button>
+        <Button onPress={() => navigation.navigate('DrawerNavigator')}>Add Card</Button>
       </S.Inner>
     </S.Container>
   );

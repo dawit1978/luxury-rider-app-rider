@@ -18,6 +18,7 @@ import CarDescription from "../screens/CarDescription";
 import Request from "../screens/Request";
 import YourRide from "../screens/YourRide";
 import DriverSearchingScreen from "../screens/DriverSearchingScreen";
+import WhereToScreen from "../screens/WhereToScreen";
 interface DrawerProps /*extends Props<DrawerParamsList, "DrawerContent">*/{
 }
 
@@ -76,7 +77,14 @@ const DrawerNavigator: React.FC<DrawerProps> = (props)=> {
              component={MapScreen}
             //  options={{headerShown:false}}
               
+
+             />
+             <Drawer.Screen
+             name="WhereToScreen"
+             component={WhereToScreen}
+            //  options={{headerShown:false}}
               
+
              />
             <Drawer.Screen
              name="ListingScreen"
@@ -91,7 +99,7 @@ const DrawerNavigator: React.FC<DrawerProps> = (props)=> {
               
              /> */}
               <Drawer.Screen
-            // options={{headerShown:false}}
+            options={{headerShown:false}}
              name="DriverSearching"
              component={DriverSearchingScreen}
               

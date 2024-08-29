@@ -6,6 +6,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
 import CustomButton from '../../newComponents/Button';
 import { Image } from 'react-native';
+import { StackParamsList } from '../../../types';
 
 type AuthScreenProps = {
   navigation: NavigationProp<any>;
@@ -16,7 +17,7 @@ const AuthScreen: React.FC<AuthScreenProps> = () => {
   const [country, setCountry] = useState<Country | null>(null);
   const [visible, setVisible] = useState<boolean>(false);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<StackParamsList>>();
   const handlePress = () => {
     navigation.navigate('Verification');
   };
@@ -52,7 +53,7 @@ const AuthScreen: React.FC<AuthScreenProps> = () => {
             <IconButton
               icon="chevron-down"
               size={24}
-              color="#B80028"
+              iconColor="#B80028"
               style={styles.arrowIcon}
             />
           </TouchableOpacity>

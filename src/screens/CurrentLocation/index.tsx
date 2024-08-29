@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 
 import MapButton from '../../components/MapButton';
@@ -13,6 +13,7 @@ import marker from '../../assets/markerRed.png';
 import customMapStyle from '../../mapstyle.json';
 
 import * as S from './styles';
+import { StackParamsList } from '../../../types';
 
 interface ILatLng {
   latitude: number;
@@ -25,7 +26,7 @@ const Map: React.FC = () => {
     longitude: -43.935129,
   });
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<StackParamsList>>();
   let mapRef: MapView | null = null;
 
   useEffect(() => {

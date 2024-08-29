@@ -122,11 +122,9 @@ const DriverSearchingScreen: React.FC = () => {
         noMargin
         onPress={centerMap}
       />
-     
+
       {/* BurgerMenu at the Bottom */}
-      <View style={styles.burgerMenuContainer}>
-        <BurgerMenu  left={10} zIndex={5} />
-      </View>
+      <BurgerMenu style={styles.burgerMenuIcon} />
 
     </GestureHandlerRootView>
   );
@@ -163,14 +161,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   map: {
-    marginTop:400,
+    marginTop: 400,
     width: '100%',
     height: '100%',
   },
   markerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    // marginTop:200,
     width: 300, // Match the ripple size
     height: 300, // Match the ripple size
   },
@@ -183,11 +180,12 @@ const styles = StyleSheet.create({
     right: 20,
     zIndex: 3,
   },
-  burgerMenuContainer: {
-    // position: 'absolute',
-    bottom: 30,
-    width: '100%',
-    // zIndex: 4,
+  burgerMenuIcon: {
+    position: 'absolute',
+    bottom: 70,
+    left: 30,
+    zIndex: 3,
+    // backgroundColor:'#B80028'
   },
 });
 

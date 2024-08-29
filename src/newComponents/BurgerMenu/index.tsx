@@ -4,51 +4,35 @@ import { IconButton } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 interface BurgerMenuProps {
-    top?: number;
-    left?: number;
-    position?: 'absolute' | 'relative';
-    zIndex?: number;
-    containerStyle?: ViewStyle;
+  style?: ViewStyle;
 }
 
-const BurgerMenu: React.FC<BurgerMenuProps> = ({
-    top = 40,
-    left = 20,
-    position = 'absolute',
-    zIndex = 1,
-    containerStyle,
-}) => {
-    const navigation = useNavigation();
+const BurgerMenu: React.FC<BurgerMenuProps> = ({ style }) => {
+  const navigation = useNavigation();
 
-    return (
-        <View
-            style={[
-                styles.menuContainer,
-                { top, left, position, zIndex },
-                containerStyle,
-            ]}
-        >
-            <IconButton
-                icon="menu"
-                size={24}
-                color="black"
-                onPress={() => navigation.openDrawer()}
-                style={styles.menuButton}
-            />
-        </View>
-    );
+  return (
+    <View style={[styles.menuContainer, style]}>
+      <IconButton
+        icon="menu"
+        size={24}
+        iconColor="#B80028"
+        onPress={() => navigation.openDrawer()}
+        style={styles.menuButton}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    menuContainer: {
-        backgroundColor: 'white',
-        borderRadius: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    menuButton: {
-        margin: 0,
-    },
+  menuContainer: {
+    backgroundColor: 'white',
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menuButton: {
+    margin: 0,
+  },
 });
 
 export default BurgerMenu;

@@ -2,16 +2,18 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Card, Text } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import BurgerMenu from '../../newComponents/BurgerMenu'; // Adjust the path as necessary
 import CustomButton from '../../newComponents/Button';
+import { StackParamsList } from '../../../types';
 
 const DriverFoundScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<StackParamsList>>();
 
-  const handleServicePress = () => {
-    navigation.navigate('ServiceScreen'); // Assuming you have a ServiceScreen to navigate to
-  };
+
+  // const handleServicePress = () => {
+  //   navigation.navigate('ServiceScreen'); // Assuming you have a ServiceScreen to navigate to
+  // };
 
   return (
     <View style={styles.container}>

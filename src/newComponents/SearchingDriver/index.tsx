@@ -99,7 +99,7 @@ const SearchingDriver = () => {
               <IconButton
                 icon="plus"
                 size={24}
-                iconColor="#B80028"
+                iconColor="#ffffff"
                 onPress={handleAddStop}
                 style={styles.plusIcon}
               />
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
   plusIcon: {
     alignSelf: 'center',
     marginBottom: 8,
+    backgroundColor:'#B80028'
   },
 });
 

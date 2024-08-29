@@ -1,15 +1,18 @@
 import React, { useRef, MutableRefObject, RefObject } from 'react';
 import { TextInput } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import CodeInput from '../../components/CodeInput';
 
 import envelopeImg from '../../assets/envelope.png';
 import * as S from './styles';
+import { StackParamsList } from '../../../types';
+
+
 
 const Verification: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<StackParamsList>>();
   const codeRef2 = useRef(null);
   const codeRef3 = useRef(null);
   const codeRef4 = useRef(null);
@@ -20,7 +23,7 @@ const Verification: React.FC = () => {
 
   return (
     <S.Container>
-      <S.InnerContainer>
+      <S.InnerContainer> 
         <StatusBar style="dark" />
         <S.IconContainer>
           <S.Envelope source={envelopeImg} />
