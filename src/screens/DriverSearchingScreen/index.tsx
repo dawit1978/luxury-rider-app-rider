@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, Dimensions } from 'react-native';
+import { View, StyleSheet, Alert, Image, Dimensions } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Card } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -9,6 +9,7 @@ import BurgerMenu from '../../newComponents/BurgerMenu';
 import SearchingDriver from '../../newComponents/SearchingDriver';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 import Animated, { Easing, useSharedValue, useAnimatedProps, withRepeat, withTiming } from 'react-native-reanimated';
+import WhereCar from '../../assets/icons/whereCar.png';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,7 +20,7 @@ interface ILatLng {
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-const RippleEffect = () => {
+const RippleEffect = ({ onRadiusChange }: { onRadiusChange: (radius: number) => void }) => {
   const radius = useSharedValue(0);
 
   useEffect(() => {
@@ -29,6 +30,13 @@ const RippleEffect = () => {
       false
     );
   }, [radius]);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      onRadiusChange(radius.value);
+    }, 50);
+    return () => clearInterval(id);
+  }, [radius.value, onRadiusChange]);
 
   const animatedProps = useAnimatedProps(() => ({
     r: radius.value.toString(),
@@ -60,6 +68,17 @@ const DriverSearchingScreen: React.FC = () => {
     longitude: 38.8101,
   });
 
+  const [carMarkers, setCarMarkers] = useState<Array<{ coordinate: ILatLng; touched: boolean }>>([
+    { coordinate: { latitude: 8.9959, longitude: 38.7899 }, touched: false },
+    { coordinate: { latitude: 8.9825, longitude: 38.8095 }, touched: false },
+    { coordinate: { latitude: 8.9841, longitude: 38.8110 }, touched: false },
+    { coordinate: { latitude: 9.0062, longitude: 38.8232 }, touched: false },
+    { coordinate: { latitude: 9.0008, longitude: 38.8219 }, touched: false },
+    { coordinate: { latitude: 8.9838, longitude: 38.7963 }, touched: false },
+    { coordinate: { latitude: 9.004114, longitude: 38.803746}, touched: false },
+    // Add more car markers if necessary
+  ]);
+
   let mapRef: MapView | null = null;
 
   useEffect(() => {
@@ -77,6 +96,28 @@ const DriverSearchingScreen: React.FC = () => {
       }
     );
   }, []);
+
+  const handleRadiusChange = (radius: number) => {
+    const earthRadiusMeters = 6371000; // Radius of the Earth in meters
+    const updatedMarkers = carMarkers.map((car) => {
+      const dLat = (car.coordinate.latitude - latLng.latitude) * (Math.PI / 180);
+      const dLon = (car.coordinate.longitude - latLng.longitude) * (Math.PI / 180);
+
+      const lat1 = latLng.latitude * (Math.PI / 180);
+      const lat2 = car.coordinate.latitude * (Math.PI / 180);
+
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      const distanceFromCenter = earthRadiusMeters * c;
+
+      // Check if the car is near the edge of the ripple effect
+      const distanceFromEdge = Math.abs(distanceFromCenter - radius);
+      return { ...car, touched: distanceFromEdge <= 10 };
+    });
+    setCarMarkers(updatedMarkers);
+  };
 
   function centerMap() {
     mapRef?.animateToRegion(
@@ -110,9 +151,22 @@ const DriverSearchingScreen: React.FC = () => {
       >
         <Marker coordinate={latLng}>
           <View style={styles.markerContainer}>
-            <RippleEffect />
+            <RippleEffect onRadiusChange={handleRadiusChange} />
           </View>
         </Marker>
+
+        {carMarkers.map((car, index) => (
+          <Marker
+            key={index}
+            coordinate={car.coordinate}
+            style={{ zIndex: car.touched ? 1 : 0 }}
+          >
+            <Image
+              source={WhereCar}
+              style={[styles.carMarker, car.touched && styles.carMarkerTouched]}
+            />
+          </Marker>
+        ))}
       </MapView>
 
       {/* Map Center Button */}
@@ -151,15 +205,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  searchText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    marginBottom: 20,
-  },
   map: {
     marginTop: 400,
     width: '100%',
@@ -185,7 +230,13 @@ const styles = StyleSheet.create({
     bottom: 70,
     left: 30,
     zIndex: 3,
-    // backgroundColor:'#B80028'
+  },
+  carMarker: {
+    width: 40,
+    height: 40,
+  },
+  carMarkerTouched: {
+    tintColor: 'green',
   },
 });
 

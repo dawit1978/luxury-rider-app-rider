@@ -1,41 +1,53 @@
-// src/screens/CountrySelectorScreen.tsx
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { TextInput, Button, IconButton, Card } from 'react-native-paper';
+import { TextInput, IconButton, Card } from 'react-native-paper';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
 import CustomButton from '../../newComponents/Button';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { StackParamsList } from '../../../types';
+import { LogBox } from 'react-native';
 
 const CountrySelectorScreen: React.FC = () => {
   const [countryCode, setCountryCode] = useState<CountryCode>('ET');
   const [country, setCountry] = useState<Country | null>(null);
   const [mobileNumber, setMobileNumber] = useState('');
   const navigation = useNavigation<NavigationProp<StackParamsList>>();
-  const handlePress = () => {
+
+  LogBox.ignoreLogs([
+    'Warning: CountryModal: Support for defaultProps will be removed from function components in a future major release.',
+  ]);
+  const handlePress = useCallback(() => {
     navigation.navigate('Verification');
-  };
+  }, [navigation]);
+
+  const handleCountrySelect = useCallback((selectedCountry: Country) => {
+    setCountryCode(selectedCountry.cca2);
+    setCountry(selectedCountry);
+  }, []);
+
+  const countryPicker = useMemo(
+    () => (
+      <CountryPicker
+        countryCode={countryCode}
+        withFlag
+        withFilter
+        withCallingCode
+        onSelect={handleCountrySelect}
+        containerButtonStyle={styles.countryPicker}
+      />
+    ),
+    [countryCode, handleCountrySelect]
+  );
 
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <Card style={styles.countryCard}>
-        {/* // Replace the existing `pickerContainer` and `IconButton` block with: */}
           <TouchableOpacity
             style={styles.pickerContainer}
             onPress={() => {/* Action on press if needed */}}
           >
-            <CountryPicker
-              countryCode={countryCode}
-              withFlag
-              withFilter
-              withCallingCode
-              onSelect={(country) => {
-                setCountryCode(country.cca2);
-                setCountry(country);
-              }}
-              containerButtonStyle={styles.countryPicker}
-            />
+            {countryPicker}
             <IconButton
               icon="chevron-down"
               size={24}
@@ -43,7 +55,6 @@ const CountrySelectorScreen: React.FC = () => {
               style={styles.arrowIcon}
             />
           </TouchableOpacity>
-
         </Card>
         <TextInput
           mode="outlined"
@@ -54,7 +65,6 @@ const CountrySelectorScreen: React.FC = () => {
         />
       </View>
       <CustomButton title="Continue" onPress={handlePress} />
-       
     </View>
   );
 };
@@ -63,8 +73,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    justifyContent: 'flex-start', // Aligns content at the top
-     backgroundColor: '#B80028',
+    justifyContent: 'flex-start',
+    backgroundColor: '#B80028',
   },
   row: {
     flexDirection: 'row',
