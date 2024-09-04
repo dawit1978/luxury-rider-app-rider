@@ -69,13 +69,13 @@ const DriverSearchingScreen: React.FC = () => {
   });
 
   const [carMarkers, setCarMarkers] = useState<Array<{ coordinate: ILatLng; touched: boolean }>>([
-    { coordinate: { latitude: 8.9959, longitude: 38.7899 }, touched: false },
     { coordinate: { latitude: 8.9825, longitude: 38.8095 }, touched: false },
     { coordinate: { latitude: 8.9841, longitude: 38.8110 }, touched: false },
     { coordinate: { latitude: 9.0062, longitude: 38.8232 }, touched: false },
     { coordinate: { latitude: 9.0008, longitude: 38.8219 }, touched: false },
-    { coordinate: { latitude: 8.9838, longitude: 38.7963 }, touched: false },
     { coordinate: { latitude: 9.004114, longitude: 38.803746}, touched: false },
+    { coordinate: { latitude: 8.9959, longitude: 38.7899 }, touched: false },
+    { coordinate: { latitude: 8.9838, longitude: 38.7963 }, touched: false },
     // Add more car markers if necessary
   ]);
 
@@ -99,25 +99,33 @@ const DriverSearchingScreen: React.FC = () => {
 
   const handleRadiusChange = (radius: number) => {
     const earthRadiusMeters = 6371000; // Radius of the Earth in meters
+    const buffer = 100; // Increase buffer to 50 meters to account for discrepancies
+  
     const updatedMarkers = carMarkers.map((car) => {
       const dLat = (car.coordinate.latitude - latLng.latitude) * (Math.PI / 180);
       const dLon = (car.coordinate.longitude - latLng.longitude) * (Math.PI / 180);
-
+  
       const lat1 = latLng.latitude * (Math.PI / 180);
       const lat2 = car.coordinate.latitude * (Math.PI / 180);
-
-      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+  
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
+  
       const distanceFromCenter = earthRadiusMeters * c;
-
-      // Check if the car is near the edge of the ripple effect
-      const distanceFromEdge = Math.abs(distanceFromCenter - radius);
-      return { ...car, touched: distanceFromEdge <= 10 };
+  
+      // Apply green effect to cars within the ripple effect, considering the buffer
+      const touched = distanceFromCenter <= radius + buffer;
+  
+      return { ...car, touched };
     });
+  
     setCarMarkers(updatedMarkers);
   };
+  
+  
+  
 
   function centerMap() {
     mapRef?.animateToRegion(

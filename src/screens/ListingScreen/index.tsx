@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, TouchableOpacity, ImageSourcePropType } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ImageSourcePropType, ScrollView } from 'react-native';
 import { Appbar, TextInput, IconButton } from 'react-native-paper';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import BackButton from '../../newComponents/BackButton';
@@ -116,7 +116,7 @@ const ListingScreen = () => {
           />
         </View>
       </Appbar.Header>
-
+    <ScrollView>
       <View style={styles.searchSection}>
         {/* You can add search functionality here */}
       </View>
@@ -141,6 +141,7 @@ const ListingScreen = () => {
           />
         </TouchableOpacity>
       ))}
+      </ScrollView>
     </View>
   );
 };

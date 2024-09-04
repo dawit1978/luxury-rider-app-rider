@@ -19,6 +19,7 @@ import Request from "../screens/Request";
 import YourRide from "../screens/YourRide";
 import DriverSearchingScreen from "../screens/DriverSearchingScreen";
 import WhereToScreen from "../screens/WhereToScreen";
+import RideHistoryDetailsScreen from "../screens/RideHistoryDetailsScreen";
 interface DrawerProps /*extends Props<DrawerParamsList, "DrawerContent">*/{
 }
 
@@ -35,7 +36,8 @@ const DrawerNavigator: React.FC<DrawerProps> = (props)=> {
               <View style={styles.menuAndLogoContainer}>
                 <View style={styles.headerContainer}>
                       <TouchableOpacity
-                        style={{zIndex:1, backgroundColor: "white",width:40, height:40, alignItems:"center", justifyContent:"center", borderRadius:20 }}
+                        style={{zIndex:1, backgroundColor: "white",width:40, height:40, 
+                        alignItems:"center", justifyContent:"center", borderRadius:20,marginTop:10 }}
                         onPress={() => {
                           props.navigation.toggleDrawer();
                         }}
@@ -92,12 +94,12 @@ const DrawerNavigator: React.FC<DrawerProps> = (props)=> {
              options={{headerShown:false}}
               
              />
-            {/* <Drawer.Screen
+            <Drawer.Screen
             options={{headerShown:false}}
-             name="CarDescription"
-             component={CarDescription}
+             name="RideHistoryDetails"
+             component={RideHistoryDetailsScreen}
               
-             /> */}
+             />
               <Drawer.Screen
             options={{headerShown:false}}
              name="DriverSearching"

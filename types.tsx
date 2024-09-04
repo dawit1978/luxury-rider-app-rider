@@ -19,6 +19,7 @@ export type DrawerParamsList ={
  MapScreen:undefined;
  Request:undefined;
  YourRide:undefined;
+ RideHistoryDetails:{};
  TabBarNavigator: NavigatorScreenParams<TabBarParamsList>;
  DrawerContent: NavigatorScreenParams<TabBarParamsList>;
 };
