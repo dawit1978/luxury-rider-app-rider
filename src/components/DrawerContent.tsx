@@ -71,8 +71,8 @@ export const DrawerContent: React.FC<DrawerContentComponentProps>=(props)=>{
                             )}
                             label="RideHistory"
                             color="#B80028"
-                            onPress={() => {props.navigation.navigate('TabBarNavigator',{
-                                screen:"RideHistory"
+                            onPress={() => {props.navigation.navigate('DrawerNavigator',{
+                                screen:"WhereToScreen"
                             })}}
                         />
                         <DrawerItem 

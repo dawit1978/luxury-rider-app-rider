@@ -99,7 +99,7 @@ const DriverSearchingScreen: React.FC = () => {
 
   const handleRadiusChange = (radius: number) => {
     const earthRadiusMeters = 6371000; // Radius of the Earth in meters
-    const buffer = 100; // Increase buffer to 50 meters to account for discrepancies
+    const buffer = 500; // Increase buffer to 500 meters to account for discrepancies
   
     const updatedMarkers = carMarkers.map((car) => {
       const dLat = (car.coordinate.latitude - latLng.latitude) * (Math.PI / 180);
@@ -114,9 +114,11 @@ const DriverSearchingScreen: React.FC = () => {
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   
       const distanceFromCenter = earthRadiusMeters * c;
-  
+      console.log(`Marker at ${car.coordinate.latitude}, ${car.coordinate.longitude}: Distance = ${distanceFromCenter}, Touched = ${touched}`);
+
       // Apply green effect to cars within the ripple effect, considering the buffer
       const touched = distanceFromCenter <= radius + buffer;
+
   
       return { ...car, touched };
     });
@@ -124,6 +126,26 @@ const DriverSearchingScreen: React.FC = () => {
     setCarMarkers(updatedMarkers);
   };
   
+  // const handleRadiusChange = (radius: number) => {
+  //   const degreeOffset = radius / 111320; // Roughly, 1 degree of latitude ~ 111.32 km
+  
+  //   const minLat = latLng.latitude - degreeOffset;
+  //   const maxLat = latLng.latitude + degreeOffset;
+  //   const minLng = latLng.longitude - degreeOffset;
+  //   const maxLng = latLng.longitude + degreeOffset;
+  
+  //   const updatedMarkers = carMarkers.map((car) => {
+  //     const touched =
+  //       car.coordinate.latitude >= minLat &&
+  //       car.coordinate.latitude <= maxLat &&
+  //       car.coordinate.longitude >= minLng &&
+  //       car.coordinate.longitude <= maxLng;
+  
+  //     return { ...car, touched };
+  //   });
+  
+  //   setCarMarkers(updatedMarkers);
+  // };
   
   
 

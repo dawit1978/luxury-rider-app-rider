@@ -1,21 +1,23 @@
-import React, { useRef, MutableRefObject, RefObject } from 'react';
+import React, { useRef } from 'react';
 import { TextInput } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import CodeInput from '../../components/CodeInput';
 import FIcon from 'react-native-vector-icons/FontAwesome';
 
 import envelopeImg from '../../assets/envelope.png';
 import * as S from './styles';
+import { StackParamsList } from '../../../types';
 
 const VerificationScreen: React.FC = () => {
-  const navigation = useNavigation();
-  const codeRef2 = useRef(null);
-  const codeRef3 = useRef(null);
-  const codeRef4 = useRef(null);
+  const navigation = useNavigation<NavigationProp<StackParamsList>>();
 
-  function focusNext(ref: RefObject<TextInput | null>) {
+  const codeRef2 = useRef<TextInput>(null);
+  const codeRef3 = useRef<TextInput>(null);
+  const codeRef4 = useRef<TextInput>(null);
+
+  function focusNext(ref: React.RefObject<TextInput | null>) {
     ref.current?.focus();
   }
 
@@ -24,9 +26,7 @@ const VerificationScreen: React.FC = () => {
       <S.InnerContainer>
         <StatusBar style="dark" />
         <S.IconContainer>
-          {/* envelope-o */}
           <FIcon name="envelope-o" color={"white"} size={90} />
-          {/* <S.Envelope source={envelopeImg} /> */}
         </S.IconContainer>
         <S.Title>
           <S.Title>Verification </S.Title>

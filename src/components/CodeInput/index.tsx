@@ -1,19 +1,16 @@
-import React, { forwardRef, RefForwardingComponent } from 'react';
+import React, { forwardRef, RefObject } from 'react';
 import { TextInput, TextInputProps } from 'react-native';
 
 import * as S from './styles';
 
-type IRef = TextInput | null;
+type CodeInputProps = TextInputProps;
 
-const CodeInput: RefForwardingComponent<IRef, TextInputProps> = (
-  props,
-  ref,
-) => {
+const CodeInput = forwardRef<TextInput, CodeInputProps>((props, ref) => {
   return (
     <S.Container>
-      <S.Input ref={ref} keyboardType="numeric" maxLength={1} {...props} />
+      <S.Input ref={ref as RefObject<TextInput>} keyboardType="numeric" maxLength={1} {...props} />
     </S.Container>
   );
-};
+});
 
-export default forwardRef(CodeInput);
+export default CodeInput;

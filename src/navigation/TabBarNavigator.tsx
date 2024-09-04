@@ -3,9 +3,9 @@ import React from 'react'
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Home from '../screens/Home';
-import News from '../screens/News';
-import Matches from '../screens/Matches';
-import Shop from '../screens/Shop';
+// import News from '../screens/News';
+// import Matches from '../screens/Matches';
+// import Shop from '../screens/Shop';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EIcon from 'react-native-vector-icons/Entypo';
 import FIcon from 'react-native-vector-icons/FontAwesome';
@@ -85,21 +85,10 @@ const TabBarNavigator: React.FC<TabsProps> = ({ }) => {
           }
         }
       />
-      <TabBar.Screen
-        name="News"
-        component={News}
-        options={
-          {
-          title:"Favorite",
-          tabBarIcon: ({color})=>(
-            <EIcon name="heart" color={color} size={26} />
-          )
-          }
-        }
-      />
+      
       <TabBar.Screen
         name="Matches"
-        component={Matches}
+        component={Home}
         options={
           {
           title:"notifications",
@@ -109,18 +98,7 @@ const TabBarNavigator: React.FC<TabsProps> = ({ }) => {
           }
         }
       />
-      <TabBar.Screen
-        name="Shop"
-        component={Shop}
-        options={
-          {
-          title:"profile",
-          tabBarIcon: ({color})=>(
-            <FIcon name="user" color={color} size={26} />
-          )
-          }
-        }
-      />
+    
       {/* <TabBar.Screen
         name="DrawerNavigator"
         component={DrawerNavigator}

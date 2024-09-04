@@ -28,6 +28,7 @@ export type StackParamsList = {
     DrawerNavigator: undefined;
     Verification:undefined;
     SelectDestination:undefined;
+    UserDetails:undefined
     NewsDetail: undefined;
     MatchDetail: undefined;
     ShopItemDetail: undefined;
