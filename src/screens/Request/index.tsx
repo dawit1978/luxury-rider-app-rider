@@ -3,6 +3,7 @@ import { View, Text, Modal, StyleSheet, BackHandler, TouchableOpacity, Animated 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Polyline, Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Checkbox, IconButton, TextInput } from 'react-native-paper';
+import { Linking } from 'react-native';
 import homeMarker from '../../assets/icons/whereCar.png';
 import destMarker from '../../assets/dest_marker.png';
 import customMapStyle from '../../mapstyle.json';
@@ -27,7 +28,8 @@ const Request: React.FC = () => {
 
 
   const handleCallDriver = () => {
-    navigation.navigate('YourRide');
+    const driverPhoneNumber = '1234567890'; // Replace with the actual driver's phone number
+    Linking.openURL(`tel:${driverPhoneNumber}`);
     console.log('Call Driver button pressed');
   };
 
@@ -88,6 +90,7 @@ const Request: React.FC = () => {
       });
     }
   }, [coordinates]);
+  
   return (
     <S.Container style={{ marginTop: 20 }}>
       <S.HeaderContainer>
@@ -116,7 +119,7 @@ const Request: React.FC = () => {
           <CustomButton
             title="Call Driver"
             icon="phone-in-talk-outline"
-            // onPress={handleCallDriver}
+            onPress={handleCallDriver}
             // style={styles.callDriver}
           />
           <CustomButton

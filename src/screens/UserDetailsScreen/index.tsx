@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput, Text, Card, Provider as PaperProvider, useTheme, HelperText } from 'react-native-paper';
 import CustomButton from '../../newComponents/Button';
 import { StackParamsList } from '../../../types';
@@ -14,12 +15,20 @@ const UserDetailsScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp<StackParamsList>>();
   const theme = useTheme();
 
-  const handlePress = () => {
-    if (!firstName || !lastName || !email) {
-      setError('All fields are required');
-    } else {
-      setError('');
+  const handlePress = async () => {
+    if (firstName && lastName && email) {
+      const userData = {
+        firstName,
+        lastName,
+        email,
+      };
+      // Store the user data
+      await AsyncStorage.setItem('userData', JSON.stringify(userData));
+  
+      // Navigate to the main screen
       navigation.navigate('DrawerNavigator');
+    } else {
+      alert('Please fill in all required fields.');
     }
   };
 
