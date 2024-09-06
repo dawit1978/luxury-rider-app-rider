@@ -1,8 +1,7 @@
-// src/screens/UserDetailsScreen.tsx
 import React, { useState } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
-import { TextInput, Text, Card, Provider as PaperProvider, useTheme } from 'react-native-paper';
+import { TextInput, Text, Card, Provider as PaperProvider, useTheme, HelperText } from 'react-native-paper';
 import CustomButton from '../../newComponents/Button';
 import { StackParamsList } from '../../../types';
 
@@ -10,13 +9,18 @@ const UserDetailsScreen: React.FC = () => {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  
-  const navigation = useNavigation<NavigationProp<StackParamsList>>();
+  const [error, setError] = useState<string>('');
 
+  const navigation = useNavigation<NavigationProp<StackParamsList>>();
   const theme = useTheme();
 
   const handlePress = () => {
-    navigation.navigate('DrawerNavigator');
+    if (!firstName || !lastName || !email) {
+      setError('All fields are required');
+    } else {
+      setError('');
+      navigation.navigate('DrawerNavigator');
+    }
   };
 
   return (
@@ -53,7 +57,8 @@ const UserDetailsScreen: React.FC = () => {
               outlineColor="transparent"
               activeOutlineColor="transparent"
             />
-            <CustomButton title="Continue" onPress={handlePress}  />
+            {error ? <HelperText type="error">{error}</HelperText> : null}
+            <CustomButton title="Continue" onPress={handlePress} />
           </Card.Content>
         </Card>
       </View>

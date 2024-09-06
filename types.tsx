@@ -26,7 +26,8 @@ export type DrawerParamsList ={
 // export type 
 export type StackParamsList = {
     DrawerNavigator: undefined;
-    Verification:undefined;
+    Auth: undefined;
+    Verification: { phoneNumber: string };
     Request:undefined;
     SelectDestination:undefined;
     UserDetails:undefined

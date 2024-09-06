@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { TextInput, Text, IconButton } from 'react-native-paper';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
@@ -8,17 +8,25 @@ import { Image } from 'react-native';
 import { StackParamsList } from '../../../types';
 
 type AuthScreenProps = {
-  navigation?: NavigationProp<any>; // Example: Using default parameters instead of defaultProps
+  navigation?: NavigationProp<any>;
 };
 
 const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
   const [countryCode, setCountryCode] = useState<CountryCode>('ET');
   const [country, setCountry] = useState<Country | null>(null);
   const [visible, setVisible] = useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  
+  const nav = navigation || useNavigation<NavigationProp<StackParamsList>>();
 
-  const nav = navigation || useNavigation<NavigationProp<StackParamsList>>(); // Example: Providing a fallback default value
+  const generateOTP = (): string => {
+    return Math.floor(1000 + Math.random() * 9000).toString(); // Generate 4-digit OTP
+  };
+
   const handlePress = () => {
-    nav.navigate('Verification');
+    const otp = generateOTP();
+    Alert.alert('OTP Sent', `Phone: ${phoneNumber}, OTP: ${otp}`);
+    nav.navigate('Verification', { phoneNumber, otp }); // Pass OTP to verification screen
   };
 
   const handleSelectCountry = (country: Country) => {
@@ -62,6 +70,8 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
           style={styles.input}
           outlineColor="transparent"
           activeOutlineColor="transparent"
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
         />
       </View>
       <CustomButton title="Continue" onPress={handlePress} />
