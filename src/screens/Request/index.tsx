@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Modal, StyleSheet, BackHandler, TouchableOpacity, Animated } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Polyline, Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Checkbox, IconButton, TextInput } from 'react-native-paper';
-import homeMarker from '../../assets/home_marker.png';
+import homeMarker from '../../assets/icons/whereCar.png';
 import destMarker from '../../assets/dest_marker.png';
 import customMapStyle from '../../mapstyle.json';
 import BackButton from '../../newComponents/BackButton';
@@ -15,6 +15,7 @@ import driverImage from '../../assets/avatar.png';
 import { DrawerParamsList } from '../../../types';
 
 const Request: React.FC = () => {
+  const mapRef = useRef(null); // Reference for the MapView
   const [selected, setSelected] = useState('economy');
   const [text, setText] = useState(' ');
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -73,7 +74,20 @@ const Request: React.FC = () => {
     inputRange: [0, 1],
     outputRange: [50, 200],
   });
-
+  const coordinates = [
+    { latitude: 9.0305, longitude: 38.7500 }, // Piassa
+    { latitude: 9.0188, longitude: 38.7648 }, // Intermediate point
+    { latitude: 8.9952, longitude: 38.7805 }, // Intermediate point
+    { latitude: 8.9775, longitude: 38.7990 }, // Bole International Airport
+  ];
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.fitToCoordinates(coordinates, {
+        edgePadding: { top: 100, right: 50, bottom: 100, left: 50 }, // Padding to avoid edges
+        animated: true, // Smooth animation
+      });
+    }
+  }, [coordinates]);
   return (
     <S.Container style={{ marginTop: 20 }}>
       <S.HeaderContainer>
@@ -102,14 +116,14 @@ const Request: React.FC = () => {
           <CustomButton
             title="Call Driver"
             icon="phone-in-talk-outline"
-            onPress={handleCallDriver}
-            style={styles.callDriver}
+            // onPress={handleCallDriver}
+            // style={styles.callDriver}
           />
           <CustomButton
             title="Cancel Ride"
             onPress={handleCancelRide}
-            style={[styles.cancelRide, { backgroundColor: 'white' }]}
-            labelStyle={{ color: 'black' }}
+            // style={[styles.cancelRide, { backgroundColor: 'white' }]}
+            // labelStyle={{ color: 'black' }}
           />
         </View>
 
@@ -124,12 +138,13 @@ const Request: React.FC = () => {
       </S.CreditCardInfo>
 
       <S.Map
+        ref={mapRef}
         provider={PROVIDER_GOOGLE}
-        region={{
-          latitude: -19.920183,
-          longitude: -43.936825,
-          latitudeDelta: 0.0143,
-          longitudeDelta: 0.0134,
+        initialRegion={{
+          latitude: 9.0188, // Centered near Piassa
+          longitude: 38.7648,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
         }}
         loadingEnabled
         showsCompass={false}
@@ -138,41 +153,32 @@ const Request: React.FC = () => {
         customMapStyle={customMapStyle}
       >
         <Polyline
-          coordinates={[
-            { longitude: -43.935129, latitude: -19.916483 },
-            { longitude: -43.935322, latitude: -19.917199 },
-            { longitude: -43.935452, latitude: -19.917306 },
-            { longitude: -43.935597, latitude: -19.917413 },
-            { longitude: -43.936989, latitude: -19.918178 },
-            { longitude: -43.938683, latitude: -19.919081 },
-            { longitude: -43.937698, latitude: -19.920745 },
-            { longitude: -43.938009, latitude: -19.921849 },
-            { longitude: -43.938881, latitude: -19.921655 },
-          ]}
+          coordinates={coordinates}
           strokeColor="#B80028"
           strokeWidth={4}
         />
         <Marker
           image={homeMarker}
-          coordinate={{ latitude: -19.916483, longitude: -43.935129 }}
+          coordinate={{ latitude: 9.0305, longitude: 38.7500 }} // Piassa
         >
           <Callout>
             <TextInput
               value={text}
               onChangeText={(text) => setText(text)}
-              placeholder="Bole, Atlas"
+              placeholder="Piassa, Addis Ababa"
             />
           </Callout>
         </Marker>
         <Marker
           image={destMarker}
-          coordinate={{ latitude: -19.921655, longitude: -43.938881 }}
+          coordinate={{ latitude: 8.9775, longitude: 38.7990 }} // Bole International Airport
         >
           <Callout>
-            <Text>Igreja de São José</Text>
+            <Text>Bole International Airport</Text>
           </Callout>
         </Marker>
       </S.Map>
+
 
       <Modal visible={isModalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>

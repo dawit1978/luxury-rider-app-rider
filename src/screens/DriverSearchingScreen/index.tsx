@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Modal, Text, Pressable } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Card } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -9,7 +9,9 @@ import BurgerMenu from '../../newComponents/BurgerMenu';
 import SearchingDriver from '../../newComponents/SearchingDriver';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 import Animated, { Easing, useSharedValue, useAnimatedProps, withRepeat, withTiming } from 'react-native-reanimated';
+import { useNavigation, useFocusEffect, NavigationProp } from '@react-navigation/native';
 import WhereCar from '../../assets/icons/whereCar.png';
+import CustomButton from '../../newComponents/Button';
 
 const { width, height } = Dimensions.get('window');
 
@@ -67,7 +69,8 @@ const DriverSearchingScreen: React.FC = () => {
     latitude: 8.9831,
     longitude: 38.8101,
   });
-
+  const [showDriverFoundModal, setShowDriverFoundModal] = useState(false);
+  const navigation = useNavigation();
   const [carMarkers, setCarMarkers] = useState<Array<{ coordinate: ILatLng; touched: boolean }>>([
     { coordinate: { latitude: 8.9825, longitude: 38.8095 }, touched: false },
     { coordinate: { latitude: 8.9841, longitude: 38.8110 }, touched: false },
@@ -81,75 +84,55 @@ const DriverSearchingScreen: React.FC = () => {
 
   let mapRef: MapView | null = null;
 
+  useFocusEffect(
+    React.useCallback(() => {
+      // Reset the modal visibility and start the timer again
+      setShowDriverFoundModal(false);
+  
+      const timer = setTimeout(() => {
+        setShowDriverFoundModal(true);
+      }, 10000);
+  
+      return () => clearTimeout(timer); // Clean up the timeout on unfocus
+    }, [])
+  );
+  
+
   useEffect(() => {
-    navigator.geolocation?.getCurrentPosition(
-      ({ coords: { latitude, longitude } }) => {
-        setLatLng({ latitude, longitude });
-      },
-      () => {
-        Alert.alert('Error', 'Failed to get your current location');
-      },
-      {
-        timeout: 2000,
-        enableHighAccuracy: true,
-        maximumAge: 1000,
-      }
-    );
+    // Trigger the modal after 10 seconds (ripple effect duration)
+    const timer = setTimeout(() => {
+      setShowDriverFoundModal(true);
+    }, 10000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const handleRadiusChange = (radius: number) => {
     const earthRadiusMeters = 6371000; // Radius of the Earth in meters
     const buffer = 500; // Increase buffer to 500 meters to account for discrepancies
-  
+
     const updatedMarkers = carMarkers.map((car) => {
       const dLat = (car.coordinate.latitude - latLng.latitude) * (Math.PI / 180);
       const dLon = (car.coordinate.longitude - latLng.longitude) * (Math.PI / 180);
-  
+
       const lat1 = latLng.latitude * (Math.PI / 180);
       const lat2 = car.coordinate.latitude * (Math.PI / 180);
-  
+
       const a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  
-      const distanceFromCenter = earthRadiusMeters * c;
-      console.log(`Marker at ${car.coordinate.latitude}, ${car.coordinate.longitude}: Distance = ${distanceFromCenter}, Touched = ${touched}`);
 
-      // Apply green effect to cars within the ripple effect, considering the buffer
+      const distanceFromCenter = earthRadiusMeters * c;
       const touched = distanceFromCenter <= radius + buffer;
 
-  
       return { ...car, touched };
     });
-  
+
     setCarMarkers(updatedMarkers);
   };
-  
-  // const handleRadiusChange = (radius: number) => {
-  //   const degreeOffset = radius / 111320; // Roughly, 1 degree of latitude ~ 111.32 km
-  
-  //   const minLat = latLng.latitude - degreeOffset;
-  //   const maxLat = latLng.latitude + degreeOffset;
-  //   const minLng = latLng.longitude - degreeOffset;
-  //   const maxLng = latLng.longitude + degreeOffset;
-  
-  //   const updatedMarkers = carMarkers.map((car) => {
-  //     const touched =
-  //       car.coordinate.latitude >= minLat &&
-  //       car.coordinate.latitude <= maxLat &&
-  //       car.coordinate.longitude >= minLng &&
-  //       car.coordinate.longitude <= maxLng;
-  
-  //     return { ...car, touched };
-  //   });
-  
-  //   setCarMarkers(updatedMarkers);
-  // };
-  
-  
 
-  function centerMap() {
+  const centerMap = () => {
     mapRef?.animateToRegion(
       {
         ...latLng,
@@ -158,7 +141,11 @@ const DriverSearchingScreen: React.FC = () => {
       },
       1000
     );
-  }
+  };
+  const handleRequestNavigation = () => {
+    setShowDriverFoundModal(false);
+    navigation.navigate('Request'); // Replace with your actual route name
+  };
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -208,8 +195,19 @@ const DriverSearchingScreen: React.FC = () => {
       />
 
       {/* BurgerMenu at the Bottom */}
-      <BurgerMenu style={styles.burgerMenuIcon} />
+      {/* <BurgerMenu style={styles.burgerMenuIcon} /> */}
 
+      {/* Driver Found Modal */}
+      <Modal visible={showDriverFoundModal} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.driverFoundCard}>
+            <Image source={require('../../assets/map-centerRed.png')} style={styles.driverIcon} />
+            <Text style={styles.driverText}>Driver Found</Text>
+            <Text style={styles.driverSubText}>Your driver will arrive soon</Text>
+            <CustomButton title='proceed' onPress={handleRequestNavigation} />
+          </View>
+        </View>
+      </Modal>
     </GestureHandlerRootView>
   );
 };
@@ -241,32 +239,98 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   markerContainer: {
-    alignItems: 'center',
+    width: 300,
+    height: 300,
     justifyContent: 'center',
-    width: 300, // Match the ripple size
-    height: 300, // Match the ripple size
-  },
-  svg: {
-    position: 'absolute',
+    alignItems: 'center',
   },
   locationIcon: {
     position: 'absolute',
-    bottom: 40,
-    right: 20,
-    zIndex: 3,
-  },
-  burgerMenuIcon: {
-    position: 'absolute',
-    bottom: 70,
-    left: 30,
-    zIndex: 3,
+    right: 15,
+    bottom: 30,
   },
   carMarker: {
     width: 40,
     height: 40,
+    opacity: 0.7,
   },
   carMarkerTouched: {
-    tintColor: 'green',
+    width: 60,
+    height: 60,
+    opacity: 1,
+  },
+  burgerMenuIcon: {
+    position: 'absolute',
+    top: 60,
+    left: 20,
+    zIndex: 10,
+  },
+  popupCard: {
+    width: '100%',
+    height: 120,
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    right: 10,
+    backgroundColor: '#fff',
+    zIndex: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  confirmIcon: {
+    width: 50,
+    height: 50,
+  },
+  popupTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#B80028',
+  },
+  popupSubtitle: {
+    fontSize: 14,
+    color: '#000000',
+  },
+  svg: {
+    position: 'absolute',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  driverFoundCard: {
+    width: 300,
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  driverIcon: {
+    width: 100,
+    height: 100,
+  },
+  driverText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  driverSubText: {
+    fontSize: 14,
+    marginTop: 5,
+    color: '#777',
+  },
+  confirmButton: {
+    marginTop: 20,
+    backgroundColor: '#B80028',
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 5,
+  },
+  confirmButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
