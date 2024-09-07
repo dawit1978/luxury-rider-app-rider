@@ -255,9 +255,10 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   carMarkerTouched: {
-    width: 60,
-    height: 60,
+    width: 40,
+    height: 40,
     opacity: 1,
+    tintColor:'green'
   },
   burgerMenuIcon: {
     position: 'absolute',

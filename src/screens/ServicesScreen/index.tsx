@@ -35,7 +35,7 @@ const ServicesScreen: React.FC = () => {
         <ServicesCard title="Ride" imagePath={carImage} navigateTo="back" />
         <ServicesCard title="Food" imagePath={foodImage} navigateTo="Home" />
         <ServicesCard title="Delivery" imagePath={delivery} navigateTo="Home" />
-        <ServicesCard title="Rewards" imagePath={carImage} navigateTo="Home" />
+        <ServicesCard title="Rewards" imagePath={mart} navigateTo="Home" />
       </View>
     </ScrollView>
   );

@@ -14,7 +14,7 @@ const color = "#B80028"
 const buttons:Array<icon> =[
     {screen:"Home", icon:<EIcon name="home" color={color} size={26} />},
     {screen:"News", icon:<FIcon name="history" color={color} size={26} />},
-    {screen:"Matches", icon:<Icon name="notifications" color={color} size={26} />},
+    // {screen:"Matches", icon:<Icon name="notifications" color={color} size={26} />},
     {screen:"Shop", icon:<FIcon name="user" color={color} size={26} />},
 ]
 const BottomNav: React.FC<any> = (props) => {
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: 330,
         height: 47,
-        left: '3.5%',
+        left: '7.5%',
         // marginLeft: -194, // To center the element, half of the width
         top: '89%',
         // marginTop: 379.5 - 23.5, // Adjust for vertical centering
