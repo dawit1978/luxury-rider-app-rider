@@ -24,6 +24,10 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
   };
 
   const handlePress = () => {
+    if (!phoneNumber.trim()) {
+      Alert.alert('Error', 'Phone number is required');
+      return;
+    }
     const otp = generateOTP();
     Alert.alert('OTP Sent', `Phone: ${phoneNumber}, OTP: ${otp}`);
     nav.navigate('Verification', { phoneNumber, otp }); // Pass OTP to verification screen
@@ -66,7 +70,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
         <TextInput
           mode="outlined"
           keyboardType="numeric"
-          placeholder="987 65 43"
+          placeholder="enter phone number"
           style={styles.input}
           outlineColor="transparent"
           activeOutlineColor="transparent"

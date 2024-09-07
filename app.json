@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "luxury-rider-app-rider",
-    "slug": "luxury-rider-app-rider",
+    "slug": "luxury-rideUser",
+    "name": "luxury-rideUser",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,7 +32,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e4753b88-ebfc-465b-ad81-e7c4e3ebd625"
+        "projectId": "a3986bb2-139c-49e6-b4f5-844ba6a49b2f"
       }
     }
   }

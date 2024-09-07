@@ -28,7 +28,7 @@ const ListingScreen = () => {
 
   const carsData: Array<carDetailType> = [
     {
-      name: 'MINI SUV',
+      name: 'SUV',
       imagePath: rangeRover,
       price: '10,000 birr/day',
       category: 'VVIP',
@@ -37,16 +37,16 @@ const ListingScreen = () => {
       dropOffTime: '2:00',
     },
     {
-      name: 'SUV',
+      name: 'Mercedes',
       imagePath: mercedes,
-      price: '10,000 birr/day',
+      price: '15,000 birr/day',
       category: 'VVIP',
       seats: 4,
       speed: '100 mph',
       dropOffTime: '2:00',
     },
     {
-      name: 'SEDAN',
+      name: 'LandCruiser',
       imagePath: landCruiser,
       price: '10,000 birr/day',
       category: 'VIP',
@@ -57,16 +57,16 @@ const ListingScreen = () => {
     {
       name: 'NISSAN',
       imagePath: landCruiser,
-      price: '10,000 birr/day',
+      price: '8,000 birr/day',
       category: 'VIP',
       seats: 4,
       speed: '100 mph',
       dropOffTime: '2:00',
     },
     {
-      name: 'MARCEDES',
+      name: 'SEDAN',
       imagePath: landCruiser,
-      price: '10,000 birr/day',
+      price: '5,000 birr/day',
       category: 'VIP',
       seats: 4,
       speed: '100 mph',

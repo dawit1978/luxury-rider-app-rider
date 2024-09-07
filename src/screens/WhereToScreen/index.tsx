@@ -87,27 +87,27 @@ const WhereToScreen: React.FC<WhereToScreenProps> = () => {
                     onPress={handleRideHistoryCardPress} // Add onPress handler
                 />
                 <RideHistoryCard
-                    startLocation="Bole, Addis Ababa, Ethiopia"
+                    startLocation="Piassa, Addis Ababa, Ethiopia"
                     destination="Skylight Hotel"
                     price="2000birr"
                     date="2024-08-01"
                     onPress={handleRideHistoryCardPress} // Add onPress handler
                 />
                 <RideHistoryCard
-                    startLocation="Bole, Addis Ababa, Ethiopia"
+                    startLocation="Atlas, Addis Ababa, Ethiopia"
                     destination="Skylight Hotel"
                     price="2000birr"
                     date="2024-08-01"
                     onPress={handleRideHistoryCardPress} // Add onPress handler
                 />
                 <RideHistoryCard
-                    startLocation="Bole, Addis Ababa, Ethiopia"
+                    startLocation="Lebu, Addis Ababa, Ethiopia"
                     destination="Skylight Hotel"
                     price="2000birr"
                     date="2024-08-01"
                     onPress={handleRideHistoryCardPress} // Add onPress handler
                 /><RideHistoryCard
-                    startLocation="Bole, Addis Ababa, Ethiopia"
+                    startLocation="Jamo, Addis Ababa, Ethiopia"
                     destination="Skylight Hotel"
                     price="2000birr"
                     date="2024-08-01"
